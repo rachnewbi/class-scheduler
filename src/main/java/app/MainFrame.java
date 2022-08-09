@@ -73,6 +73,7 @@ public class MainFrame extends JFrame {
                 //set show class
             });
             listPanel.add(checkBox);
+
         }
     }
 }
