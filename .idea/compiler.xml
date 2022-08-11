@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="class-scheduler" target="18" />
+      <module name="class-scheduler" target="16" />
     </bytecodeTargetLevel>
   </component>
 </project>

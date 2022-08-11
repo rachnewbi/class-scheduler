@@ -1,5 +1,7 @@
 package app;
 
+import app.GUI.MainFrame;
+
 public class Main {
 
     public static void main(String[] args) {
