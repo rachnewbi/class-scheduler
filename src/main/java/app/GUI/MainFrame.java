@@ -4,7 +4,7 @@
 
 package app.GUI;
 
-import app.Module;
+import app.CalEvent;
 import net.fortuna.ical4j.data.ParserException;
 import org.apache.commons.lang.StringUtils;
 
@@ -15,26 +15,27 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.BorderLayout;
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.NoSuchElementException;
 
 @SuppressWarnings("UseOfSystemOutOrSystemErr")
 public class MainFrame extends JFrame {
-    private final ListPanel listPanel = new ListPanel();
+    private final ListPanel listPanel = new ListPanel(this);
+    private final CalPanel calPanel = new CalPanel(this);
+    private LinkedList<CalEvent> events = new LinkedList<>();
 
-    protected LinkedList<Module> modules = new LinkedList<>();
-
-    MainFrame() {
+    public MainFrame() {
         super("Module Scheduling Tool");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        setSize(800,600);
         setLayout(new BorderLayout());
 
         initMenuBar();
         add(listPanel, BorderLayout.EAST);
+        add(calPanel, BorderLayout.CENTER);
     }
 
     private void initMenuBar() {
@@ -61,20 +62,20 @@ public class MainFrame extends JFrame {
                 final File[] files = chooser.getSelectedFiles();
                 System.out.println(files[0].getName());
                 for (final File f : files) {
-                    modules.add(new Module(f));
+                    events.add(new CalEvent(f));
                     final String[] nameParts = f.getName().split("\\.")[0].split("_");
                     final String name = StringUtils.join(Arrays.copyOfRange(nameParts, 1, nameParts.length), " ");
-                    listPanel.addCheckBox(name);
+                    listPanel.addCheckBox(name, events.getLast());
                 }
-            } catch (final IOException | ParserException e) {
+            } catch (final IOException | ParserException | NoSuchElementException e) {
                 System.out.println(e.getMessage());
             }
+            //calPanel.refreshWeekView();
             repaint();
-            revalidate();
         }
     }
 
-    private LinkedList<Module> getModules() {
-        return modules;
+    LinkedList<CalEvent> getEvents() {
+        return events;
     }
 }
