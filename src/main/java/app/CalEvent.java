@@ -1,15 +1,18 @@
 package app;
 
+/**
+ * @author Rachael Newbigging
+ * Represents an event as defined in the imported ics file.
+ */
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.TextStyle;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.Locale;
 
 import net.fortuna.ical4j.data.*;
 import net.fortuna.ical4j.model.*;
@@ -26,6 +29,13 @@ public class CalEvent extends VEvent {
     private String eventName;
     private boolean showOnCalendar;
 
+    /**
+     * Creates a new CalEvent by parsing the given ics file.
+     * Saves event properties to List for further access.
+     * @param icsFile The ics file from which the event is created.
+     * @throws IOException
+     * @throws ParserException
+     */
     public CalEvent(File icsFile) throws IOException, ParserException {
         final String[] nameParts = icsFile.getName().split("\\.")[0].split("_");
         eventName = StringUtils.join(Arrays.copyOfRange(nameParts, 1, nameParts.length), " ");
@@ -85,7 +95,7 @@ public class CalEvent extends VEvent {
         this.showOnCalendar = showOnCalendar;
     }
 
-    public boolean getShowOnCalendar() {
+    public boolean showOnCalendar() {
         return showOnCalendar;
     }
 
